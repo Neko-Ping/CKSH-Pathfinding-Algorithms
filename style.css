@@ -1,0 +1,226 @@
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            height: 100vh;
+            background-color: #f9f9f9;
+        }
+        #output {
+            white-space: pre-wrap;
+            background-color: #ffffff;
+            padding: 15px;
+            border: 2px solid #3d86fa;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            font-size: 18px;
+            color: #333;
+            margin: 20px;
+        }
+        .input-section {
+            margin: 20px 0;
+        }
+        .head {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100px;
+            line-height: 100px;
+            color: #ffffff;
+            font-size: 2em;
+            font-weight: bold;
+            background-color: #254c74;
+        }
+        .button {
+            display: flex;
+            margin-left: 45%;
+            font-size: 18px;
+            background-color: #3d86fa;
+            border-color: #000000;
+            border-radius: 6px;
+            padding: 5px 10px;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        /* 外層大容器：負責讓「兩行」垂直排列 */
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 1000px; /* 寬度加寬，讓左右分得更開 */
+            margin: 20px auto;
+            gap: 20px; /* 兩行之間的距離 */
+            padding-left: 50px;
+        }
+
+        /* 每一行：負責讓裡面的「兩個選項」分佔左右 */
+        .input-row {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between; /* 關鍵：把內容推向左右兩端 */
+            align-items: center;
+            width: 100%; /* 撐滿父容器 */
+            padding: 0 50px; /* 側邊留白，避免貼到邊緣 */
+            box-sizing: border-box;
+        }
+
+        /* 選項組合的微調：讓 label 跟 select 靠近一點 */
+        .input-row label {
+            font-size: 18px;
+            font-weight: bold;
+            margin-right: 10px; /* 文字跟下拉框的距離 */
+        }
+
+        .input-row select {
+            width: 250px; /* 給選單一個固定且適中的寬度，不會太大也不會太小 */
+            height: 30px;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        label {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .wel {
+            width: 100%;
+            height: 450px;
+            background-position: center;
+            opacity: 1;
+            transition: opacity 0.6s;
+            background-image: url('全景.png');
+        }
+        .view {
+            width: 100%;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .slogan {
+            font-size: 2em;
+            color: #ffffff;
+            padding-top: 200px;
+            line-height: 60px;
+            text-shadow: #000000;
+        }
+        .slo {
+            font-size: 40px;
+            color: #050505;
+            line-height: 60px;
+            margin-top: 50px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            max-width: 1000px;
+            margin: auto;
+            padding: 20px;
+        }
+        .floor {
+            position: relative;
+            cursor: pointer;
+        }
+        .floor img {
+            width: 100%;
+            height: auto;
+            max-width: 450px;
+            border-radius: 8px;
+            transition: transform 0.3s;
+        }
+        .floor img:hover {
+            transform: scale(1.1);
+        }
+        .label {
+            position: absolute;
+            bottom: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .overlay img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+        }
+        .overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .loading-spinner {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3d86fa;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+            display: none; /* 預設隱藏 */
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .result-card {
+            background: #fff;
+            border-left: 10px solid #3d86fa;
+            padding: 15px;
+            margin-top: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: none; /* 預設隱藏 */
+            text-align: left;
+        }
+        .result-item {
+            margin-bottom: 10px;
+            font-size: 18px;
+            line-height: 1.5;
+        }
+        .result-label {
+            font-weight: bold;
+            color: #254c74;
+        }
+        .path-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 5px;
+        }
+        .badge {
+            background-color: #e3f2fd;
+            color: #1565c0;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 14px;
+            border: 1px solid #bbdefb;
+        }
+        .arrow {
+            color: #999;
+            align-self: center;
+        }
