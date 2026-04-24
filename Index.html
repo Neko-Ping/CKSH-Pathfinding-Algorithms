@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pathfinding Algorithms Comparison</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="head">Pathfinding Algorithms</header>
+    <div class="wel" id="pic" style="opacity: 1;background-image: url(全景.png);">
+        <div class="view">
+            <div class="slogan" id="text">成功高中。室內立體導航實測</div>
+        </div>
+    </div>
+    <div class="input-section">
+        <label for="algorithm" style="font-size: 20px; margin-left: 300px;">演算法:</label>
+        <select id="algorithm">
+            <option value="bidirectionalDijkstra">Bidirectional Dijkstra</option>
+            <option value="dijkstra">Dijkstra</option>
+            <option value="aStar">A*</option>
+        </select>
+    </div>
+    <div class="input-section">
+        <label for="start" style="font-size: 20px; margin-left: 300px;">起點:</label>
+        <select id="start">
+            <optgroup label="一樓">
+                <option>玻璃側門</option>
+                <option>一樓樓梯C</option>
+                <option>視聽教室</option>
+                <option>排球場</option>
+                <option>籃球場</option>
+                <option>一樓電梯</option>
+                <option>八德樓一樓</option>
+                <option>一樓樓梯A</option>
+                <option>一樓樓梯B</option>
+                <option>一樓廁所</option>
+                <option>四維樓一樓</option>
+            </optgroup>
+            <optgroup label="二樓"> 
+                <option>八德樓二樓</option>
+                <option>二樓樓梯C</option>
+                <option>二樓中間走廊</option>
+                <option>二樓樓梯A</option>
+                <option>二樓電腦教室</option>
+                <option>圖書館</option>
+                <option>二樓電梯</option>
+                <option>二樓樓梯B</option>
+                <option>二樓廁所</option>
+                <option>資訊中心</option>
+                <option>四維樓二樓</option>
+            </optgroup>
+            <optgroup label="三樓">
+                <option>八德樓三樓</option>
+                <option>三樓樓梯C</option>
+                <option>蝴蝶宮前門</option>
+                <option>蝴蝶宮後門</option>
+                <option>三樓中間走廊</option>
+                <option>三樓樓梯A</option>
+                <option>校史室</option>
+                <option>簡報室</option>
+                <option>三樓電梯</option>
+                <option>三樓樓梯B</option>
+                <option>三樓廁所</option>
+                <option>四維樓三樓</option>
+            </optgroup>
+            <optgroup label="四樓">
+                <option>八德樓四樓</option>
+                <option>四樓樓梯C</option>
+                <option>教師走廊1</option>
+                <option>教師走廊2</option>
+                <option>多功能自學室</option>
+                <option>國際教育中心</option>
+                <option>四樓樓梯A</option>
+                <option>四到五樓樓梯起點</option>
+                <option>四樓電梯</option>
+                <option>四樓樓梯B</option>
+                <option>四樓廁所</option>
+                <option>數學中心</option>
+                <option>四維樓四樓</option>
+            </optgroup>
+            <optgroup label="五樓">
+                <option>四到五樓樓梯A終點</option>
+                <option>五到六樓樓梯起點</option>
+                <option>禮堂</option>
+                <option>五樓電梯</option>
+                <option>五樓樓梯B</option>
+                <option>體育中心</option>
+                <option>四維樓五樓</option>
+            </optgroup>
+            <optgroup label="六樓">
+                <option>五到六樓樓梯A終點</option>
+                <option>六到七樓樓梯起點</option>
+                <option>六樓看台</option>
+                <option>六樓電梯</option>
+                <option>六樓樓梯B</option>
+                <option>六樓藝術教室</option>
+                <option>四維樓屋頂</option>
+            </optgroup>
+            <optgroup label="七樓">
+                <option>六到七樓樓梯A終點</option>
+                <option>七到八樓樓梯起點</option>
+                <option>七樓看台</option>
+                <option>七樓電梯</option>
+                <option>七樓樓梯B</option>
+                <option>701教室</option>
+                <option>觀景台</option>
+            </optgroup>
+            <optgroup label="八樓">
+                <option>七到八樓樓梯A終點</option>
+                <option>八樓運動中心</option>
+                <option>八樓電梯</option>
+                <option>八樓樓梯B</option>
+                <option>健身房</option>
+            </optgroup>
+        </select>
+        <label for="end" style="font-size: 20px; margin-left: 475px;">終點:</label>
+        <select id="end">
+            <optgroup label="一樓">
+                <option>玻璃側門</option>
+                <option>一樓樓梯C</option>
+                <option>視聽教室</option>
+                <option>排球場</option>
+                <option>籃球場</option>
+                <option>一樓電梯</option>
+                <option>八德樓一樓</option>
+                <option>一樓樓梯A</option>
+                <option>一樓樓梯B</option>
+                <option>一樓廁所</option>
+                <option>四維樓一樓</option>
+            </optgroup>
+            <optgroup label="二樓">
+                <option>八德樓二樓</option>
+                <option>二樓樓梯C</option>
+                <option>二樓中間走廊</option>
+                <option>二樓樓梯A</option>
+                <option>二樓電腦教室</option>
+                <option>圖書館</option>
+                <option>二樓電梯</option>
+                <option>二樓樓梯B</option>
+                <option>二樓廁所</option>
+                <option>資訊中心</option>
+                <option>四維樓二樓</option>
+            </optgroup>
+            <optgroup label="三樓">
+                <option>八德樓三樓</option>
+                <option>三樓樓梯C</option>
+                <option>蝴蝶宮前門</option>
+                <option>蝴蝶宮後門</option>
+                <option>三樓中間走廊</option>
+                <option>三樓樓梯A</option>
+                <option>校史室</option>
+                <option>簡報室</option>
+                <option>三樓電梯</option>
+                <option>三樓樓梯B</option>
+                <option>三樓廁所</option>
+                <option>四維樓三樓</option>
+            </optgroup>
+            <optgroup label="四樓">
+                <option>八德樓四樓</option>
+                <option>四樓樓梯C</option>
+                <option>教師走廊1</option>
+                <option>教師走廊2</option>
+                <option>多功能自學室</option>
+                <option>國際教育中心</option>
+                <option>四樓樓梯A</option>
+                <option>四到五樓樓梯起點</option>
+                <option>四樓電梯</option>
+                <option>四樓樓梯B</option>
+                <option>四樓廁所</option>
+                <option>數學中心</option>
+                <option>四維樓四樓</option>
+            </optgroup>
+            <optgroup label="五樓">
+                <option>四到五樓樓梯A終點</option>
+                <option>五到六樓樓梯起點</option>
+                <option>禮堂</option>
+                <option>五樓電梯</option>
+                <option>五樓樓梯B</option>
+                <option>體育中心</option>
+                <option>四維樓五樓</option>
+            </optgroup>
+            <optgroup label="六樓">
+                <option>五到六樓樓梯A終點</option>
+                <option>六到七樓樓梯起點</option>
+                <option>六樓看台</option>
+                <option>六樓電梯</option>
+                <option>六樓樓梯B</option>
+                <option>六樓藝術教室</option>
+                <option>四維樓屋頂</option>
+            </optgroup>
+            <optgroup label="七樓">
+                <option>六到七樓樓梯A終點</option>
+                <option>七到八樓樓梯起點</option>
+                <option>七樓看台</option>
+                <option>七樓電梯</option>
+                <option>七樓樓梯B</option>
+                <option>701教室</option>
+                <option>觀景台</option>
+            </optgroup>
+            <optgroup label="八樓">
+                <option>七到八樓樓梯A終點</option>
+                <option>八樓運動中心</option>
+                <option>八樓電梯</option>
+                <option>八樓樓梯B</option>
+                <option>健身房</option>
+            </optgroup>
+        </select>
+    </div>
+    <div class="input-section">
+        <label for="useElevator" style="font-size: 20px; margin-left: 300px;">使用電梯:</label>
+        <select id="useElevator">
+            <option value="yes">是</option>
+            <option value="no">否</option>
+        </select>
+    </div>
+    <button onclick="findShortestPath()" class="button">查找最短路徑</button>
+    <pre id="output"></pre>
+    <hr style="margin-top: 40px;">
+    <div class="slo">綜合大樓平面樓層圖</div>
+    <div class="container">
+        <div class="floor" onclick="showImage('1F.jpg')">
+            <img src="1F.jpg" alt="1樓平面圖">
+            <div class="label">1F</div>
+        </div>
+        <div class="floor" onclick="showImage('2F.jpg')">
+            <img src="2F.jpg" alt="2樓平面圖">
+            <div class="label">2F</div>
+        </div>
+        <div class="floor" onclick="showImage('3F.jpg')">
+            <img src="3F.jpg" alt="3樓平面圖">
+            <div class="label">3F</div>
+        </div>
+        <div class="floor" onclick="showImage('4F.jpg')">
+            <img src="4F.jpg" alt="4樓平面圖">
+            <div class="label">4F</div>
+        </div>
+        <div class="floor" onclick="showImage('5F.jpg')">
+            <img src="5F.jpg" alt="5樓平面圖">
+            <div class="label">5F</div>
+        </div>
+        <div class="floor" onclick="showImage('6F.jpg')">
+            <img src="6F.jpg" alt="6樓平面圖">
+            <div class="label">6F</div>
+        </div>
+        <div class="floor" onclick="showImage('7F.jpg')">
+            <img src="7F.jpg" alt="7樓平面圖">
+            <div class="label">7F</div>
+        </div>
+        <div class="floor" onclick="showImage('8F.jpg')">
+            <img src="8F.jpg" alt="8樓平面圖">
+            <div class="label">8F</div>
+        </div>
+    </div>
+    <div class="overlay" id="overlay" onclick="hideImage()">
+        <img id="overlayImg" src="" alt="">
+    </div>
+    <script>
+        const graph = {
+            "玻璃側門": {"一樓樓梯C": 70, "視聽教室": 10, "排球場": 30, "籃球場": 27, "一樓電梯": 15},
+            "一樓樓梯C": {"玻璃側門": 70, "八德樓一樓": 8, "一樓樓梯A": 22, "二樓樓梯C": 40},
+            "視聽教室": {"玻璃側門": 10, "排球場": 30},
+            "排球場": {"玻璃側門": 30, "視聽教室": 30, "籃球場": 10, "一樓樓梯A": 40},
+            "籃球場": {"玻璃側門": 27, "排球場": 10},
+            "一樓電梯": {"玻璃側門": 15, "一樓樓梯B": 3, "二樓電梯": 20},
+            "八德樓一樓": {"一樓樓梯C": 8, "一樓樓梯A": 18},
+            "一樓樓梯A": {"一樓樓梯C": 22, "排球場": 40, "二樓樓梯A": 30, "八德樓一樓": 18},
+            "一樓樓梯B": {"一樓電梯": 3, "一樓廁所": 10, "二樓樓梯B": 40},
+            "一樓廁所": {"一樓樓梯B": 10, "四維樓一樓": 27},
+            "四維樓一樓": {"一樓廁所": 27},
+            "八德樓二樓": {"二樓樓梯C": 8},
+            "二樓樓梯C": {"八德樓二樓": 8, "二樓電腦教室": 14, "一樓樓梯C": 40, "三樓樓梯C": 40},
+            "二樓電腦教室": {"二樓樓梯C": 14, "二樓中間走廊": 40},
+            "二樓中間走廊": {"二樓電腦教室": 40, "二樓樓梯A": 10, "圖書館": 50},
+            "二樓樓梯A": {"一樓樓梯A": 30, "二樓中間走廊": 10, "三樓樓梯A": 30},
+            "圖書館": {"二樓中間走廊": 50, "二樓電梯": 3},
+            "二樓電梯": {"圖書館": 3, "二樓樓梯B": 3, "一樓電梯": 20, "三樓電梯": 20},
+            "二樓樓梯B": {"二樓電梯": 3, "二樓廁所": 10, "一樓樓梯B": 40, "三樓樓梯B": 40},
+            "二樓廁所": {"二樓樓梯B": 10, "資訊中心": 11},
+            "資訊中心": {"二樓廁所": 11, "四維樓二樓": 16},
+            "四維樓二樓": {"資訊中心": 16},
+            "八德樓三樓": {"三樓樓梯C": 8},
+            "三樓樓梯C": {"八德樓三樓": 8, "蝴蝶宮前門": 6, "二樓樓梯C": 40, "四樓樓梯C": 40},
+            "蝴蝶宮前門": {"三樓樓梯C": 6, "蝴蝶宮後門": 40},
+            "蝴蝶宮後門": {"蝴蝶宮前門": 40, "三樓中間走廊": 13},
+            "三樓中間走廊": {"蝴蝶宮後門": 13, "三樓樓梯A": 10, "校史室": 22},
+            "三樓樓梯A": {"二樓樓梯A": 30, "三樓中間走廊": 10, "四樓樓梯A": 30},
+            "校史室": {"三樓中間走廊": 22, "簡報室": 11},
+            "簡報室": {"校史室": 11, "三樓電梯": 4},
+            "三樓電梯": {"簡報室": 4, "三樓樓梯B": 3, "二樓電梯": 20, "四樓電梯": 20},
+            "三樓樓梯B": {"三樓電梯": 3, "三樓廁所": 10, "二樓樓梯B": 40, "四樓樓梯B": 40},
+            "三樓廁所": {"三樓樓梯B": 10, "四維樓三樓": 27},
+            "四維樓三樓": {"三樓廁所": 27},
+            "八德樓四樓": {"四樓樓梯C": 6},
+            "四樓樓梯C": {"八德樓四樓": 6, "教師走廊1": 21, "多功能自學室": 22, "三樓樓梯C": 40},
+            "教師走廊1": {"四樓樓梯C": 21},
+            "教師走廊2": {"四到五樓樓梯起點": 10, "四樓電梯": 12},
+            "多功能自學室": {"四樓樓梯C": 22, "國際教育中心": 25},
+            "國際教育中心": {"多功能自學室": 25, "四到五樓樓梯起點": 31},
+            "四到五樓樓梯起點": {"國際教育中心": 31, "四樓樓梯A": 15, "四到五樓樓梯A終點": 26, "教師走廊2": 10},
+            "四樓樓梯A": {"四到五樓樓梯起點": 15, "三樓樓梯A": 30},
+            "四樓電梯": {"四樓樓梯B": 3, "教師走廊2": 12, "三樓電梯": 20, "五樓電梯": 20},
+            "四樓樓梯B": {"四樓廁所": 10, "五樓樓梯B": 40, "三樓樓梯B": 40, "四樓電梯": 3},
+            "四樓廁所": {"四樓樓梯B": 10, "數學中心": 11},
+            "數學中心": {"四樓廁所": 11, "四維樓四樓": 16},
+            "四維樓四樓": {"數學中心": 16},
+            "四到五樓樓梯A終點": {"五到六樓樓梯起點": 22, "禮堂": 17, "五樓電梯": 8, "四到五樓樓梯起點": 26},
+            "五到六樓樓梯起點": {"四到五樓樓梯A終點": 22, "禮堂": 30, "五到六樓樓梯A終點": 26},
+            "禮堂": {"四到五樓樓梯A終點": 17, "五到六樓樓梯起點": 30, "五樓電梯": 5},
+            "五樓電梯": {"五樓樓梯B": 3, "六樓電梯": 20, "四樓電梯": 20, "禮堂": 5},
+            "五樓樓梯B": {"體育中心": 11, "四樓樓梯B": 40, "六樓樓梯B": 40, "五樓電梯": 3},
+            "體育中心": {"五樓樓梯B": 11, "四維樓五樓": 23},
+            "四維樓五樓": {"體育中心": 23},
+            "五到六樓樓梯A終點": {"六到七樓樓梯起點": 22, "六樓看台": 13, "六樓電梯": 6, "五到六樓樓梯起點": 26},
+            "六到七樓樓梯起點": {"五到六樓樓梯A終點": 22, "六到七樓樓梯A終點": 26, "六樓看台": 24},
+            "六樓看台": {"五到六樓樓梯A終點": 13, "六到七樓樓梯起點": 24, "六樓電梯": 8},
+            "六樓電梯": {"六樓樓梯B": 3, "五樓電梯": 20, "五到六樓樓梯A終點": 6, "七樓電梯": 20},
+            "六樓樓梯B": {"六樓電梯": 3, "六樓藝術教室": 9, "五樓樓梯B": 40, "七樓樓梯B": 40},
+            "六樓藝術教室": {"四維樓屋頂": 27, "六樓樓梯B": 9},
+            "四維樓屋頂": {"六樓藝術教室": 27},
+            "六到七樓樓梯A終點": {"七到八樓樓梯起點": 22, "七樓看台": 8, "七樓電梯": 11, "六到七樓樓梯起點": 26},
+            "七到八樓樓梯起點": {"六到七樓樓梯A終點": 22, "七到八樓樓梯A終點": 26},
+            "七樓看台": {"六到七樓樓梯A終點": 8, "七樓電梯": 3},
+            "七樓電梯": {"七樓樓梯B": 3, "七樓看台": 3, "六樓電梯": 20, "八樓電梯": 20, "六到七樓樓梯A終點": 11},
+            "七樓樓梯B": {"701教室": 22, "七樓電梯": 3, "六樓樓梯B": 40, "八樓樓梯B": 40},
+            "701教室": {"觀景台": 16, "七樓樓梯B": 22},
+            "觀景台": {"701教室": 16},
+            "七到八樓樓梯A終點": {"八樓運動中心": 8, "健身房": 5, "八樓電梯": 6, "七到八樓樓梯起點": 26},
+            "八樓運動中心": {"七到八樓樓梯A終點": 8, "八樓電梯": 12},
+            "八樓電梯": {"七到八樓樓梯A終點": 6, "八樓樓梯B": 3, "七樓電梯": 20},
+            "八樓樓梯B": {"健身房": 2, "八樓電梯": 3},
+            "健身房": {"八樓樓梯B": 2}
+        };
+        
+        const reverseGraph = Object.keys(graph).reduce((acc, vertex) => {
+            acc[vertex] = {};
+            return acc;}, {});
+            for (const vertex in graph) {
+                for (const neighbor in graph[vertex]) {
+                    reverseGraph[neighbor][vertex] = graph[vertex][neighbor];
+                }
+            };
+
+        
+        // Precompute no-elevator graph
+        const noElevatorGraph = Object.keys(graph).reduce((acc, vertex) => {
+            acc[vertex] = {};
+            for (const neighbor in graph[vertex]) {
+                if (vertex.includes("電梯") && neighbor.includes("電梯")) {
+                    const floorVertex = vertex.split("電梯")[0];
+                    const floorNeighbor = neighbor.split("電梯")[0];
+                    if (floorVertex !== floorNeighbor) continue;
+                }
+                acc[vertex][neighbor] = graph[vertex][neighbor];
+            }
+            return acc;
+        }, {});
+
+        // Cache DOM elements
+        const algorithmSelect = document.getElementById("algorithm");
+        const startSelect = document.getElementById("start");
+        const endSelect = document.getElementById("end");
+        const useElevatorSelect = document.getElementById("useElevator");
+        const outputElement = document.getElementById("output");
+
+        // Optimized Priority Queue
+        class PriorityQueue {
+            constructor() {
+                this.items = [];
+                this.elementToIndex = new Map();
+            }
+            enqueue(element, priority) {
+                const item = { element, priority };
+                this.items.push(item);
+                this.elementToIndex.set(element, this.items.length - 1);
+                this.bubbleUp(this.items.length - 1);
+            }
+            bubbleUp(index) {
+                while (index > 0) {
+                    const parent = Math.floor((index - 1) / 2);
+                    if (this.items[parent].priority <= this.items[index].priority) break;
+                    this.swap(parent, index);
+                    index = parent;
+                }
+            }
+            dequeue() {
+                if (this.isEmpty()) return null;
+                const min = this.items[0];
+                const end = this.items.pop();
+                this.elementToIndex.delete(min.element);
+                if (this.items.length > 0) {
+                    this.items[0] = end;
+                    this.elementToIndex.set(end.element, 0);
+                    this.sinkDown(0);
+                }
+                return min;
+            }
+            sinkDown(index) {
+                const length = this.items.length;
+                while (true) {
+                    let minIndex = index;
+                    const left = 2 * index + 1;
+                    const right = 2 * index + 2;
+                    if (left < length && this.items[left].priority < this.items[minIndex].priority) {
+                        minIndex = left;
+                    }
+                    if (right < length && this.items[right].priority < this.items[minIndex].priority) {
+                        minIndex = right;
+                    }
+                    if (minIndex === index) break;
+                    this.swap(index, minIndex);
+                    index = minIndex;
+                }
+            }
+            swap(i, j) {
+                this.elementToIndex.set(this.items[i].element, j);
+                this.elementToIndex.set(this.items[j].element, i);
+                [this.items[i], this.items[j]] = [this.items[j], this.items[i]];
+            }
+            updatePriority(element, priority) {
+                const index = this.elementToIndex.get(element);
+                if (index === undefined) return false; // 節點不存在
+                const oldPriority = this.items[index].priority;
+                this.items[index].priority = priority;
+                if (priority < oldPriority) {
+                    this.bubbleUp(index);
+                } else {
+                    this.sinkDown(index);
+                }
+                return true; // 成功更新
+            }
+            isEmpty() {
+                return this.items.length === 0;
+            }
+        }
+
+        // Dijkstra
+        function dijkstra(graph, start, end) {
+            const distances = {};
+            const previous = {};
+            const queue = new PriorityQueue();
+
+            for (const vertex in graph) {
+                distances[vertex] = Infinity;
+                previous[vertex] = null;
+            }
+            distances[start] = 0;
+            queue.enqueue(start, 0);
+
+            while (!queue.isEmpty()) {
+                const { element: current } = queue.dequeue();
+
+                if (current === end) {
+                    const path = [];
+                    let temp = end;
+                    while (temp) {
+                        path.push(temp);
+                        temp = previous[temp];
+                    }
+                    return { distance: distances[end], path: path.reverse() };
+                }
+
+                for (const neighbor in graph[current]) {
+                    const alt = distances[current] + graph[current][neighbor];
+                    if (alt < distances[neighbor]) {
+                        distances[neighbor] = alt;
+                        previous[neighbor] = current;
+                        queue.updatePriority(neighbor, alt) || queue.enqueue(neighbor, alt);
+                    }
+                }
+            }
+            return { distance: Infinity, path: [] };
+        }
+
+        // Bidirectional Dijkstra
+        function bidirectionalDijkstra(graph, start, end) {
+            const forwardDistances = {};
+            const forwardPrevious = {};
+            const forwardQueue = new PriorityQueue();
+            const backwardDistances = {};
+            const backwardPrevious = {};
+            const backwardQueue = new PriorityQueue();
+            const visitedForward = new Set();
+            const visitedBackward = new Set();
+
+            for (const vertex in graph) {
+                forwardDistances[vertex] = Infinity;
+                backwardDistances[vertex] = Infinity;
+                forwardPrevious[vertex] = null;
+                backwardPrevious[vertex] = null;
+            }
+            forwardDistances[start] = 0;
+            backwardDistances[end] = 0;
+            forwardQueue.enqueue(start, 0);
+            backwardQueue.enqueue(end, 0);
+
+            let bestDistance = Infinity;
+            let bestMeetingPoint = null;
+            let mu = Infinity;
+
+            while (!forwardQueue.isEmpty() && !backwardQueue.isEmpty()) {
+                if (!forwardQueue.isEmpty()) {
+                    const { element: currentForward, priority: currentForwardDist } = forwardQueue.dequeue();
+                    if (currentForwardDist > mu) continue;
+                    visitedForward.add(currentForward);
+
+                    if (visitedBackward.has(currentForward)) {
+                        const totalDist = forwardDistances[currentForward] + backwardDistances[currentForward];
+                        if (totalDist < bestDistance) {
+                            bestDistance = totalDist;
+                            bestMeetingPoint = currentForward;
+                            mu = Math.min(mu, bestDistance);
+                        }
+                    }
+
+                    for (const neighbor in graph[currentForward]) {
+                        const alt = forwardDistances[currentForward] + graph[currentForward][neighbor];
+                        if (alt < forwardDistances[neighbor]) {
+                            forwardDistances[neighbor] = alt;
+                            forwardPrevious[neighbor] = currentForward;
+                            forwardQueue.updatePriority(neighbor, alt) || forwardQueue.enqueue(neighbor, alt);
+                        }
+                    }
+                }
+
+                if (!backwardQueue.isEmpty()) {
+                    const { element: currentBackward, priority: currentBackwardDist } = backwardQueue.dequeue();
+                    if (currentBackwardDist > mu) continue;
+                    visitedBackward.add(currentBackward);
+
+                    if (visitedForward.has(currentBackward)) {
+                        const totalDist = forwardDistances[currentBackward] + backwardDistances[currentBackward];
+                        if (totalDist < bestDistance) {
+                            bestDistance = totalDist;
+                            bestMeetingPoint = currentBackward;
+                            mu = Math.min(mu, bestDistance);
+                        }
+                    }
+
+                    // 使用反向圖進行逆向搜尋
+                    for (const vertex in reverseGraph[currentBackward]) {
+                        const alt = backwardDistances[currentBackward] + reverseGraph[currentBackward][vertex];
+                        if (alt < backwardDistances[vertex]) {
+                            backwardDistances[vertex] = alt;
+                            backwardPrevious[vertex] = currentBackward;
+                            backwardQueue.updatePriority(vertex, alt) || backwardQueue.enqueue(vertex, alt);
+                        }
+                    }
+                }
+
+                if (bestDistance !== Infinity) {
+                    const forwardMin = forwardQueue.isEmpty() ? Infinity : forwardQueue.items[0].priority;
+                    const backwardMin = backwardQueue.isEmpty() ? Infinity : backwardQueue.items[0].priority;
+                    if (forwardMin + backwardMin >= mu) break;
+                }
+            }
+
+            if (bestMeetingPoint === null || bestDistance === Infinity) {
+                return { distance: Infinity, path: [] };
+            }
+
+            const forwardPath = [];
+            let temp = bestMeetingPoint;
+            while (temp) {
+                forwardPath.push(temp);
+                temp = forwardPrevious[temp];
+            }
+            forwardPath.reverse();
+
+            const backwardPath = [];
+            temp = backwardPrevious[bestMeetingPoint];
+            while (temp) {
+                backwardPath.push(temp);
+                temp = backwardPrevious[temp];
+            }
+
+            return { distance: bestDistance, path: forwardPath.concat(backwardPath) };
+        }
+
+        // A* Heuristic Function
+        function heuristic(node, goal) {
+            const floorCostElevator = 20; // 電梯樓層間成本
+            const floorCostStairs = 30;   // 樓梯樓層間成本
+            const minEdgeWeight = 2;      // 圖中最短邊權重（例如「八樓樓梯B」到「健身房」）
+
+            const floorNode = getFloor(node);
+            const floorGoal = getFloor(goal);
+            const floorDiff = Math.abs(floorNode - floorGoal);
+
+            const useElevator = document.getElementById("useElevator").value === "yes";
+            const floorCost = useElevator ? floorCostElevator : floorCostStairs;
+
+            // 樓層差異成本
+            let h = floorDiff * floorCost;
+
+            // 若在同一樓層，估計最小平面距離
+            if (floorDiff === 0) {
+                h = minEdgeWeight; // 假設最短平面距離
+            }
+
+            return h;
+        }
+        function getFloor(node) {
+            const floorMap = {
+                "一樓": 1, "二樓": 2, "三樓": 3, "四樓": 4, "五樓": 5, "六樓": 6, "七樓": 7, "八樓": 8
+            };
+            for (const floor in floorMap) {
+                if (node.includes(floor)) {
+                    return floorMap[floor];
+                }
+            }
+            return 0; // 無法識別樓層，保守估計
+        }
+
+        function aStar(graph, start, end) {
+            const distances = {};
+            const previous = {};
+            const queue = new PriorityQueue();
+
+            for (const vertex in graph) {
+                distances[vertex] = Infinity;
+                previous[vertex] = null;
+            }
+            distances[start] = 0;
+            queue.enqueue(start, heuristic(start, end));
+
+            while (!queue.isEmpty()) {
+                const { element: current } = queue.dequeue();
+
+                if (current === end) {
+                    const path = [];
+                    let temp = end;
+                    while (temp) {
+                        path.push(temp);
+                        temp = previous[temp];
+                    }
+                    return { distance: distances[end], path: path.reverse() };
+                }
+
+                for (const neighbor in graph[current]) {
+                    const gScore = distances[current] + graph[current][neighbor];
+                    if (gScore < distances[neighbor]) {
+                        distances[neighbor] = gScore;
+                        previous[neighbor] = current;
+                        const fScore = gScore + heuristic(neighbor, end);
+                        queue.updatePriority(neighbor, fScore) || queue.enqueue(neighbor, fScore);
+                    }
+                }
+            }
+            return { distance: Infinity, path: [] };
+        }
+
+        // Algorithm selector
+        const algorithms = {
+            bidirectionalDijkstra,
+            dijkstra,
+            aStar
+        };
+
+        function findShortestPath() {
+            const algorithm = algorithmSelect.value;
+            const start = startSelect.value.trim();
+            const end = endSelect.value.trim();
+            const useElevator = useElevatorSelect.value;
+            const selectedGraph = useElevator === "yes" ? graph : noElevatorGraph;
+
+            if (!selectedGraph[start] || !selectedGraph[end]) {
+                outputElement.innerText = "起點或終點無效，請重新選擇。";
+                return;
+            }
+
+            let totalTime = 0;
+            let result;
+            const runs = 3000;
+            for (let i = 0; i < runs; i++) {
+                const startTime = performance.now();
+                result = algorithms[algorithm](selectedGraph, start, end);
+                const endTime = performance.now();
+                totalTime += (endTime - startTime);
+            }
+            const avgTime = totalTime / runs;
+
+            if (result.distance !== Infinity) {
+                outputElement.innerText =
+                    `最短路徑長度: ${result.distance}\n` +
+                    `最短路徑: ${result.path.join(" -> ")}\n` +
+                    `平均執行時間: ${avgTime.toFixed(4)} 毫秒`;
+            } else {
+                outputElement.innerText = "無法從起點到達終點。";
+            }
+        }
+
+        function imgchange() {
+            const im = document.getElementById("pic");
+            const text = document.getElementById("text");
+            let isOriginal = true;
+            setInterval(() => {
+                im.style.opacity = 0;
+                text.style.opacity = 0;
+                setTimeout(() => {
+                    im.style.backgroundImage = isOriginal ? "url('全景2.png')" : "url('全景.png')";
+                    text.textContent = isOriginal ? "322資訊組天菜" : "成功高中。室內立體導航實測";
+                    isOriginal = !isOriginal;
+                    im.style.opacity = 1;
+                    text.style.opacity = 1;
+                }, 700);
+            }, 20000);
+        }
+        imgchange();
+
+        function showImage(src) {
+            document.getElementById('overlayImg').src = src;
+            document.getElementById('overlay').classList.add('active');
+        }
+        function hideImage() {
+            document.getElementById('overlay').classList.remove('active');
+        }
+    </script>
+</body>
+</html>
