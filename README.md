@@ -15,6 +15,6 @@
 而實體網頁之網址則為https://neko-ping.github.io/CKSH-Pathfinding-Algorithms/
 
 ## 檔案說明
-- `Index.html`: 系統入口與演算法邏輯。
+- `index.html`: 系統入口與演算法邏輯。
 - `style.css`: UI/UX 視覺設計。
 - 其餘檔案為美觀圖與節點圖
